@@ -1,0 +1,175 @@
+{
+  "HALProvider": {
+    "Other Devices": {
+      "CANCoder (Pro)[0]": {
+        "header": {
+          "open": true
+        }
+      },
+      "CANCoder (Pro)[12]": {
+        "header": {
+          "open": true
+        }
+      },
+      "Talon FX (Pro)[0]": {
+        "header": {
+          "open": true
+        }
+      },
+      "Talon FX (Pro)[0]/Rotor Sensor": {
+        "header": {
+          "open": true
+        }
+      },
+      "Talon FX (Pro)[8]": {
+        "header": {
+          "open": true
+        }
+      }
+    }
+  },
+  "NTProvider": {
+    "types": {
+      "/FMSInfo": "FMSInfo",
+      "/LiveWindow/Ungrouped/Scheduler": "Scheduler",
+      "/LiveWindow/Ungrouped/Talon FX (Pro) [0]": "Motor Controller",
+      "/LiveWindow/Ungrouped/Talon FX (Pro) [1]": "Motor Controller",
+      "/LiveWindow/Ungrouped/Talon FX (Pro) [2]": "Motor Controller",
+      "/LiveWindow/Ungrouped/Talon FX (Pro) [3]": "Motor Controller",
+      "/LiveWindow/Ungrouped/Talon FX (Pro) [4]": "Motor Controller",
+      "/LiveWindow/Ungrouped/Talon FX (Pro) [5]": "Motor Controller",
+      "/LiveWindow/Ungrouped/Talon FX (Pro) [6]": "Motor Controller",
+      "/LiveWindow/Ungrouped/Talon FX (Pro) [7]": "Motor Controller",
+      "/LiveWindow/Ungrouped/Talon FX (Pro) [8]": "Motor Controller"
+    }
+  },
+  "NetworkTables": {
+    "transitory": {
+      "LiveWindow": {
+        "Drivetrain": {
+          "open": true
+        },
+        "Ungrouped": {
+          "Talon FX (Pro) [0]": {
+            "open": true
+          },
+          "Talon FX (Pro) [2]": {
+            "open": true
+          },
+          "Talon FX (Pro) [4]": {
+            "open": true
+          },
+          "Talon FX (Pro) [5]": {
+            "open": true
+          }
+        }
+      },
+      "Robot": {
+        "Drivetrain": {
+          "Module 0": {
+            "Azimuth Encoder": {
+              "open": true
+            },
+            "Drive Motor": {
+              "open": true
+            },
+            "Steer Motor": {
+              "open": true
+            },
+            "open": true
+          },
+          "Module 1": {
+            "Azimuth Encoder": {
+              "open": true
+            },
+            "Drive Motor": {
+              "open": true
+            },
+            "Steer Motor": {
+              "open": true
+            },
+            "open": true
+          },
+          "Module 2": {
+            "Azimuth Encoder": {
+              "open": true
+            },
+            "Drive Motor": {
+              "open": true
+            },
+            "Steer Motor": {
+              "open": true
+            },
+            "open": true
+          },
+          "Module 3": {
+            "Azimuth Encoder": {
+              "open": true
+            },
+            "Steer Motor": {
+              "open": true
+            },
+            "open": true
+          },
+          "Module FR": {
+            "Azimuth Encoder": {
+              "open": true
+            },
+            "open": true
+          },
+          "open": true
+        },
+        "open": true
+      },
+      "Shuffleboard": {
+        "open": true
+      },
+      "SmartDashboard": {
+        "open": true
+      }
+    }
+  },
+  "Plot": {
+    "Plot <0>": {
+      "plots": [
+        {
+          "axis": [
+            {
+              "autoFit": true
+            }
+          ],
+          "height": 601,
+          "series": [
+            {
+              "color": [
+                0.2980392277240753,
+                0.44705885648727417,
+                0.6901960968971252,
+                1.0
+              ],
+              "id": "NT:/SmartDashboard/Time"
+            },
+            {
+              "color": [
+                0.8666667342185974,
+                0.5176470875740051,
+                0.32156863808631897,
+                1.0
+              ],
+              "id": "NT:/SmartDashboard/Time Total"
+            },
+            {
+              "color": [
+                0.3333333432674408,
+                0.658823549747467,
+                0.4078431725502014,
+                1.0
+              ],
+              "id": "NT:/Robot/Drivetrain/Module FR/Azimuth Encoder/Absolute Position"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}
