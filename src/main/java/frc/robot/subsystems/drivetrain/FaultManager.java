@@ -9,6 +9,7 @@ import com.ctre.phoenix6.StatusCode;
 import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.hardware.TalonFX;
 
+import frc.lib.LoggedDouble;
 import frc.lib.LoggedStringArray;
 
 public class FaultManager {
@@ -17,6 +18,7 @@ public class FaultManager {
   private final HashMap<TalonFX, HashMap<String, StatusSignal<Boolean>>> m_talonMap = new HashMap<>();
   private final ArrayList<String> faults = new ArrayList<>();
   private final LoggedStringArray loggedFaults = new LoggedStringArray("", "Sticky Faults");
+  private final LoggedDouble loggedFaultCount = new LoggedDouble("", "Sticky Fault Count");
 
   private HashMap<String, StatusSignal<Boolean>> getTalonStickyFaultSignals(TalonFX talon) {
     return new HashMap<>(Map.ofEntries(
@@ -41,6 +43,7 @@ public class FaultManager {
     if (!faults.contains(faultInfo))
       faults.add(faultInfo);
     loggedFaults.accept(faults.toArray(String[]::new));
+    loggedFaultCount.accept((double) faults.size());
   }
 
   public void addTalon(TalonFX talon) {
@@ -51,12 +54,16 @@ public class FaultManager {
     m_talonMap.forEach((talon, faultList) -> {
       StatusCode status = BaseStatusSignal.waitForAll(0, faultList.values().toArray(BaseStatusSignal[]::new));
       if (!status.equals(StatusCode.OK))
-        System.err.println(status);
+        System.err.println(status); // TODO handle this better
       faultList.forEach((faultName, faultSignal) -> {
         if (faultSignal.getValue() == true)
           updateNetworkTablesEntry(talon.getCANBus() + ": " + talon.getDeviceID() + " - " + faultName);
       });
     });
+  }
+
+  public void clearAllStickyFaults() {
+    m_talonMap.keySet().forEach(talon -> talon.clearStickyFaults());
   }
 
   public static FaultManager getInstance() {

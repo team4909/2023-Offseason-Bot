@@ -111,6 +111,12 @@
             },
             "open": true
           },
+          "Module FL": {
+            "Drive Motor": {
+              "open": true
+            },
+            "open": true
+          },
           "Module FR": {
             "Azimuth Encoder": {
               "open": true
@@ -166,6 +172,47 @@
                 1.0
               ],
               "id": "NT:/Robot/Drivetrain/Module FR/Azimuth Encoder/Absolute Position"
+            }
+          ]
+        }
+      ]
+    },
+    "Plot <1>": {
+      "plots": [
+        {
+          "axis": [
+            {
+              "autoFit": true
+            }
+          ],
+          "height": 240,
+          "series": [
+            {
+              "color": [
+                0.2980392277240753,
+                0.44705885648727417,
+                0.6901960968971252,
+                1.0
+              ],
+              "id": "NT:/Robot/Drivetrain/Module FL/Drive Motor/Supply Voltage"
+            }
+          ]
+        }
+      ]
+    },
+    "Plot <2>": {
+      "plots": [
+        {
+          "height": 601,
+          "series": [
+            {
+              "color": [
+                0.2980392277240753,
+                0.44705885648727417,
+                0.6901960968971252,
+                1.0
+              ],
+              "id": "NT:/SmartDashboard/null"
             }
           ]
         }
