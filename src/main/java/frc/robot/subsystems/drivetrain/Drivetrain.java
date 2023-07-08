@@ -19,7 +19,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.CTREHelper;
 import frc.lib.LoggedString;
 import frc.lib.Logger;
-import frc.lib.Logger.LoggedMap;
+import frc.lib.Logger.CTRESignalMap;
 import frc.robot.Constants;
 import frc.robot.Constants.DeviceIDs;
 import frc.robot.Constants.DriveConstants;
@@ -101,7 +101,7 @@ public class Drivetrain extends SubsystemBase {
 
   private class Log {
     final String subTable = "Drivetrain";
-    final LoggedMap<Double> imuLoggerMap = CTREHelper.getDeviceLog(m_imu, subTable + "/IMU");
+    final CTRESignalMap<Double> imuLoggerMap = CTREHelper.getDeviceLog(m_imu, subTable + "/IMU");
     final LoggedString currentCommand = new LoggedString(subTable, "Current Command");
 
     void log() {

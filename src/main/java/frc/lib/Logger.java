@@ -3,7 +3,9 @@ package frc.lib;
 import java.util.Map;
 import java.util.function.BooleanSupplier;
 import java.util.function.Consumer;
-import java.util.function.Supplier;
+
+import com.ctre.phoenix6.BaseStatusSignal;
+import com.ctre.phoenix6.StatusSignal;
 
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
@@ -28,13 +30,15 @@ public class Logger {
     }
   }
 
-  public record LoggedMap<T>(
-      Map<Consumer<T>, Supplier<T>> map) {
+  public record CTRESignalMap<T>(
+      Map<Consumer<T>, StatusSignal<T>> map) {
   }
 
-  public void logLoggedMap(LoggedMap<?>... loggedMaps) {
-    for (LoggedMap<?> loggerMap : loggedMaps)
-      loggerMap.map.forEach((key, value) -> key.accept(value.get()));
+  public void logLoggedMap(CTRESignalMap<?>... loggedMaps) {
+    for (CTRESignalMap<?> loggerMap : loggedMaps) {
+      StatusSignal.waitForAll(0, loggerMap.map.values().toArray(BaseStatusSignal[]::new));
+      loggerMap.map.forEach((key, value) -> key.accept(value.getValue()));
+    }
   }
 
   public static Logger getInstance() {

@@ -24,7 +24,7 @@ import frc.lib.CTREHelper;
 import frc.lib.LoggedDouble;
 import frc.lib.LoggedString;
 import frc.lib.Logger;
-import frc.lib.Logger.LoggedMap;
+import frc.lib.Logger.CTRESignalMap;
 import frc.robot.Constants;
 import frc.robot.Constants.DeviceIDs;
 import frc.robot.Constants.DriveConstants;
@@ -158,11 +158,11 @@ public class Module {
 
   private class Log {
     final String subTable = "Drivetrain/Module " + m_name;
-    final LoggedMap<Double> driveMotorLoggerMap = CTREHelper.getDeviceLog(m_driveMotor,
+    final CTRESignalMap<Double> driveMotorLoggerMap = CTREHelper.getDeviceLog(m_driveMotor,
         subTable + "/Drive Motor");
-    final LoggedMap<Double> steerMotorLoggerMap = CTREHelper.getDeviceLog(m_steerMotor,
+    final CTRESignalMap<Double> steerMotorLoggerMap = CTREHelper.getDeviceLog(m_steerMotor,
         subTable + "/Steer Motor");
-    final LoggedMap<Double> azimuthEncoderLoggerMap = CTREHelper.getDeviceLog(m_azimuthEncoder,
+    final CTRESignalMap<Double> azimuthEncoderLoggerMap = CTREHelper.getDeviceLog(m_azimuthEncoder,
         subTable + "/Azimuth Encoder");
     final LoggedDouble driveSimCurrentDraw = new LoggedDouble(subTable, "Drive Sim Current Draw");
     final LoggedDouble steerSimCurrentDraw = new LoggedDouble(subTable, "Steer Sim Current Draw");
