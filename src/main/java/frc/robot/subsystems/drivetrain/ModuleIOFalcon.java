@@ -5,10 +5,15 @@ import java.util.ArrayList;
 import org.littletonrobotics.junction.Logger;
 
 import com.ctre.phoenix6.StatusSignal;
+import com.ctre.phoenix6.configs.CANcoderConfiguration;
+import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.AbsoluteSensorRangeValue;
+import com.ctre.phoenix6.signals.FeedbackSensorSourceValue;
+import com.ctre.phoenix6.signals.SensorDirectionValue;
 import com.ctre.phoenix6.sim.CANcoderSimState;
 import com.ctre.phoenix6.sim.TalonFXSimState;
 
@@ -22,7 +27,7 @@ import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.Mode;
 import frc.robot.Util;
 
-public class ModuleIOFalcon implements ModuleIO {
+public final class ModuleIOFalcon implements ModuleIO {
 
   private final int m_index;
   private final String m_name;
@@ -65,6 +70,7 @@ public class ModuleIOFalcon implements ModuleIO {
       default:
         throw new RuntimeException("Invalid Module Index");
     }
+    configMotors();
     m_driveMotorSignals = CTREHelper.getRelevantSignals(m_driveMotor);
     m_steerMotorSignals = CTREHelper.getRelevantSignals(m_steerMotor);
     m_azimuthEncoderSignals = CTREHelper.getRelevantSignals(m_azimuthEncoder);
@@ -85,11 +91,12 @@ public class ModuleIOFalcon implements ModuleIO {
     driveSimState.setSupplyVoltage(RobotController.getBatteryVoltage());
     steerSimState.setSupplyVoltage(RobotController.getBatteryVoltage());
     azimuthSimState.setSupplyVoltage(RobotController.getBatteryVoltage());
+    var driveMotorV = driveSimState.getMotorVoltage();
+    var steerMotorV = steerSimState.getMotorVoltage();
     m_driveSim.setInputVoltage(driveSimState.getMotorVoltage());
     m_steerSim.setInputVoltage(steerSimState.getMotorVoltage());
     m_driveSim.update(0.02);
     m_steerSim.update(0.02);
-
     double driveAngularVelocityRPS = m_driveSim.getAngularVelocityRadPerSec()
         / ((1.0 / DriveConstants.kDriveRatio) * DriveConstants.kWheelCircumference);
     driveSimState.addRotorPosition(driveAngularVelocityRPS * 0.02);
@@ -98,6 +105,32 @@ public class ModuleIOFalcon implements ModuleIO {
     azimuthSimState.addPosition(steerAngularVelocityRPS * 0.02);
     azimuthSimState.setVelocity(steerAngularVelocityRPS);
 
+  }
+
+  private void configMotors() {
+    CANcoderConfiguration azimuthEncoderConfig = new CANcoderConfiguration();
+    m_azimuthEncoder.getConfigurator().apply(azimuthEncoderConfig); // Factory Default
+    azimuthEncoderConfig.MagnetSensor.AbsoluteSensorRange = AbsoluteSensorRangeValue.Signed_PlusMinusHalf;
+    azimuthEncoderConfig.MagnetSensor.SensorDirection = SensorDirectionValue.Clockwise_Positive;
+    azimuthEncoderConfig.MagnetSensor.MagnetOffset = 0.0;
+    m_azimuthEncoder.getConfigurator().apply(azimuthEncoderConfig);
+
+    TalonFXConfiguration driveMotorConfig = new TalonFXConfiguration();
+    m_driveMotor.getConfigurator().apply(driveMotorConfig); // Factory Default
+    driveMotorConfig.Slot0.kP = DriveConstants.kDrivekP;
+    driveMotorConfig.Slot0.kS = DriveConstants.kDrivekS;
+    driveMotorConfig.Slot0.kV = DriveConstants.kDrivekV;
+    m_driveMotor.getConfigurator().apply(driveMotorConfig);
+
+    TalonFXConfiguration steerMotorConfig = new TalonFXConfiguration();
+    m_steerMotor.getConfigurator().apply(steerMotorConfig); // Factory Default
+    steerMotorConfig.Feedback.FeedbackRemoteSensorID = m_azimuthEncoder.getDeviceID();
+    steerMotorConfig.Feedback.FeedbackSensorSource = FeedbackSensorSourceValue.FusedCANcoder;
+    steerMotorConfig.Feedback.SensorToMechanismRatio = 1.0;
+    steerMotorConfig.Feedback.RotorToSensorRatio = DriveConstants.kTurnRatio;
+    steerMotorConfig.ClosedLoopGeneral.ContinuousWrap = true;
+    steerMotorConfig.Slot0.kP = DriveConstants.kSteerkP;
+    m_steerMotor.getConfigurator().apply(steerMotorConfig);
   }
 
   @Override

@@ -12,7 +12,6 @@ import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.subsystems.drivetrain.Drivetrain;
-import frc.robot.subsystems.flywheel.Flywheel;
 
 public final class Robot extends LoggedRobot {
   private Command autonomousCommand;
@@ -42,7 +41,6 @@ public final class Robot extends LoggedRobot {
     }
     logger.start();
     m_drivetrain = new Drivetrain();
-
     // and put our autonomous chooser on the dashboard.
     configureButtonBindings();
   }

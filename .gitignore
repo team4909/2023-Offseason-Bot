@@ -168,3 +168,6 @@ src/main/java/frc/robot/BuildConstants.java
 
 # Logs
 *.wpilog
+
+# CTRE sim output for macOS (CTRE pls fix)
+c:*.*

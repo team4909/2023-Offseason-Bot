@@ -1,4 +1,53 @@
 {
+  "HALProvider": {
+    "Other Devices": {
+      "Talon FX (Pro)[0]": {
+        "header": {
+          "open": true
+        }
+      },
+      "Talon FX (Pro)[0]/Fwd Limit": {
+        "header": {
+          "open": true
+        }
+      },
+      "Talon FX (Pro)[0]/Rev Limit": {
+        "header": {
+          "open": true
+        }
+      },
+      "Talon FX (Pro)[0]/Rotor Sensor": {
+        "header": {
+          "open": true
+        }
+      },
+      "Talon FX (Pro)[1]": {
+        "header": {
+          "open": true
+        }
+      },
+      "Talon FX (Pro)[1]/Fwd Limit": {
+        "header": {
+          "open": true
+        }
+      },
+      "Talon FX (Pro)[1]/Rev Limit": {
+        "header": {
+          "open": true
+        }
+      },
+      "Talon FX (Pro)[1]/Rotor Sensor": {
+        "header": {
+          "open": true
+        }
+      },
+      "Talon FX (Pro)[2]": {
+        "header": {
+          "open": true
+        }
+      }
+    }
+  },
   "NTProvider": {
     "types": {
       "/FMSInfo": "FMSInfo",
@@ -8,9 +57,6 @@
   "NetworkTables": {
     "transitory": {
       "AdvantageKit": {
-        "RealMetadata": {
-          "open": true
-        },
         "RealOutputs": {
           "LoggedRobot": {
             "open": true
@@ -18,12 +64,22 @@
           "Logger": {
             "open": true
           },
+          "Module 1": {
+            "open": true
+          },
+          "Module 2": {
+            "open": true
+          },
+          "Module 3": {
+            "open": true
+          },
           "open": true
         },
         "SystemStats": {
           "CANBus": {
             "open": true
-          }
+          },
+          "open": true
         },
         "open": true
       }
