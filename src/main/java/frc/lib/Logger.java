@@ -31,14 +31,7 @@ public class Logger {
   }
 
   public record CTRESignalMap<T>(
-      Map<Consumer<T>, StatusSignal<T>> map) {
-  }
-
-  public void logLoggedMap(CTRESignalMap<?>... loggedMaps) {
-    for (CTRESignalMap<?> loggerMap : loggedMaps) {
-      StatusSignal.waitForAll(0, loggerMap.map.values().toArray(BaseStatusSignal[]::new));
-      loggerMap.map.forEach((key, value) -> key.accept(value.getValue()));
-    }
+      Map<String, StatusSignal<T>> map) {
   }
 
   public static Logger getInstance() {

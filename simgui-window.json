@@ -1,83 +1,54 @@
 {
   "Docking": {
-    "Data": [
-      "DockNode    ID=0x00000001 Pos=336,469 Size=801,218 Split=X",
-      "DockNode  ID=0x00000002 Parent=0x00000001 SizeRef=191,73 Selected=0x6AE6D891",
-      "DockNode  ID=0x00000003 Parent=0x00000001 SizeRef=603,73 Selected=0x138219D4",
-      "DockNode    ID=0x00000004 Pos=80,43 Size=1528,663 Split=X",
-      "DockNode  ID=0x00000005 Parent=0x00000004 SizeRef=1140,663 Selected=0x2D9B9756",
-      "DockNode  ID=0x00000006 Parent=0x00000004 SizeRef=386,663 Selected=0x73586B9A"
-    ]
+    "Data": []
   },
   "MainWindow": {
     "GLOBAL": {
       "fps": "120",
       "height": "1017",
       "maximized": "1",
-      "style": "1",
+      "style": "0",
       "userScale": "2",
       "width": "1920",
       "xpos": "-1920",
       "ypos": "23"
     }
   },
-  "Table": {
-    "0x542B5671,2": {
-      "Column 0  Width": "262",
-      "Column 1  Width": "897",
-      "RefScale": "13"
-    }
-  },
   "Window": {
     "###FMS": {
       "Collapsed": "0",
-      "Pos": "-1,469",
+      "Pos": "5,540",
       "Size": "283,146"
     },
     "###Joysticks": {
       "Collapsed": "0",
-      "DockId": "0x00000003,0",
-      "Pos": "530,469",
-      "Size": "607,218"
+      "Pos": "250,465",
+      "Size": "796,73"
     },
     "###NetworkTables": {
       "Collapsed": "0",
-      "DockId": "0x00000005,0",
-      "Pos": "80,43",
-      "Size": "1140,663"
+      "Pos": "225,77",
+      "Size": "776,356"
     },
     "###Other Devices": {
       "Collapsed": "0",
-      "Pos": "1614,32",
-      "Size": "298,899"
+      "Pos": "1473,199",
+      "Size": "381,695"
     },
     "###Plot <0>": {
       "Collapsed": "0",
-      "DockId": "0x00000006,0",
-      "Pos": "1222,43",
-      "Size": "386,663"
-    },
-    "###Plot <1>": {
-      "Collapsed": "0",
-      "Pos": "95,713",
-      "Size": "1502,302"
-    },
-    "###Plot <2>": {
-      "Collapsed": "0",
-      "DockId": "0x00000006,1",
-      "Pos": "1222,43",
-      "Size": "386,663"
+      "Pos": "299,582",
+      "Size": "700,400"
     },
     "###System Joysticks": {
       "Collapsed": "0",
-      "DockId": "0x00000002,0",
-      "Pos": "336,469",
+      "Pos": "5,350",
       "Size": "192,218"
     },
     "###Timing": {
       "Collapsed": "0",
       "Pos": "5,150",
-      "Size": "135,127"
+      "Size": "141,127"
     },
     "Debug##Default": {
       "Collapsed": "0",

@@ -1,19 +1,25 @@
 package frc.robot;
 
 import edu.wpi.first.math.util.Units;
-import edu.wpi.first.wpilibj.RobotBase;
-import edu.wpi.first.wpilibj.TimedRobot;
 
 public final class Constants {
+  public static final Mode kCurrentMode = Mode.kSim;
+
+  public static enum Mode {
+    kReal,
+    kSim,
+    kReplay
+  }
+
   public static final String kCANFDBus = "CANivore1";
-  public static final boolean kSim = RobotBase.isSimulation();
-  public static final double kPeriodicLoopSeconds = TimedRobot.kDefaultPeriod;
+  public static final boolean kUseFOC = true;
 
   public static final class DriveConstants {
-    public static final double kWheelDiameter = Units.inchesToMeters(4);
+    public static final double kWheelDiameter = Units.inchesToMeters(4.0);
+    public static final double kWheelRadius = kWheelDiameter / 2.0;
     public static final double kWheelCircumference = kWheelDiameter * Math.PI;
-    public static final double kTrackwidthMeters = Units.inchesToMeters(26);
-    public static final double kWheelbaseMeters = Units.inchesToMeters(26);
+    public static final double kTrackwidthMeters = Units.inchesToMeters(26.0);
+    public static final double kWheelbaseMeters = Units.inchesToMeters(26.0);
     public static final double kDriveRatio = 6.75;
     public static final double kTurnRatio = 150.0 / 7.0;
     public static final double kDriveMetersPerRotation = (1.0 / kDriveRatio) * kWheelCircumference;
