@@ -91,8 +91,6 @@ public final class ModuleIOFalcon implements ModuleIO {
     driveSimState.setSupplyVoltage(RobotController.getBatteryVoltage());
     steerSimState.setSupplyVoltage(RobotController.getBatteryVoltage());
     azimuthSimState.setSupplyVoltage(RobotController.getBatteryVoltage());
-    var driveMotorV = driveSimState.getMotorVoltage();
-    var steerMotorV = steerSimState.getMotorVoltage();
     m_driveSim.setInputVoltage(driveSimState.getMotorVoltage());
     m_steerSim.setInputVoltage(steerSimState.getMotorVoltage());
     m_driveSim.update(0.02);
@@ -104,7 +102,9 @@ public final class ModuleIOFalcon implements ModuleIO {
     double steerAngularVelocityRPS = m_steerSim.getAngularVelocityRPM() / 60;
     azimuthSimState.addPosition(steerAngularVelocityRPS * 0.02);
     azimuthSimState.setVelocity(steerAngularVelocityRPS);
-
+    double angularVelocityRotor = steerAngularVelocityRPS * DriveConstants.kTurnRatio;
+    steerSimState.addRotorPosition(angularVelocityRotor * 0.02);
+    steerSimState.setRotorVelocity(angularVelocityRotor);
   }
 
   private void configMotors() {

@@ -2,9 +2,7 @@ package frc.lib;
 
 import java.util.Map;
 import java.util.function.BooleanSupplier;
-import java.util.function.Consumer;
 
-import com.ctre.phoenix6.BaseStatusSignal;
 import com.ctre.phoenix6.StatusSignal;
 
 import edu.wpi.first.networktables.NetworkTable;
