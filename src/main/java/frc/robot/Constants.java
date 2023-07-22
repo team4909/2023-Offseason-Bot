@@ -15,21 +15,23 @@ public final class Constants {
   public static final boolean kUseFOC = true;
 
   public static final class DriveConstants {
-    public static final double kWheelDiameter = Units.inchesToMeters(4.0);
-    public static final double kWheelRadius = kWheelDiameter / 2.0;
-    public static final double kWheelCircumference = kWheelDiameter * Math.PI;
+    public static final double kWheelDiameterMeters = Units.inchesToMeters(4.0);
+    public static final double kWheelRadiusMeters = kWheelDiameterMeters / 2.0;
+    public static final double kWheelCircumferenceMeters = kWheelDiameterMeters * Math.PI;
     public static final double kTrackwidthMeters = Units.inchesToMeters(26.0);
     public static final double kWheelbaseMeters = Units.inchesToMeters(26.0);
     public static final double kDriveRatio = 6.75;
-    public static final double kTurnRatio = 150.0 / 7.0;
-    public static final double kDriveMetersPerRotation = (1.0 / kDriveRatio) * kWheelCircumference;
+    public static final double kSteerRatio = 150.0 / 7.0;
+    public static final double kDriveMetersPerRotation = (1.0 / kDriveRatio) * kWheelCircumferenceMeters;
 
-    public static final double kDrivekP = 0.05;
-    public static final double kDrivekS = 0.0;
+    // This should be tuned at some point
+    public static final double kDrivekP = 0.17;
+    public static final double kDrivekS = 0.26015;
     public static final double kDrivekV = 2.5039;
     public static final double kDrivekA = 0.99695;
+    public static final double kDrivekF = 0.12; // This should be tuned at some point
 
-    public static final double kSteerkP = 0.3;
+    public static final double kSteerkP = 9.61;
   }
 
   public static final class DeviceIDs {

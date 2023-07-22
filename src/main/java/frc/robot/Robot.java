@@ -15,7 +15,7 @@ import frc.robot.subsystems.drivetrain.Drivetrain;
 
 public final class Robot extends LoggedRobot {
   private Command autonomousCommand;
-  private final Drivetrain m_drivetrain;
+  private Drivetrain m_drivetrain;
 
   public Robot() {
     Logger logger = Logger.getInstance();

@@ -35,7 +35,6 @@ public class Drivetrain extends SubsystemBase {
 
   @Override
   public void periodic() {
-    Logger.getInstance().recordOutput("Drivetrain/lol", getName());
     for (var module : m_modules) {
       module.periodic();
     }
@@ -60,11 +59,24 @@ public class Drivetrain extends SubsystemBase {
       optimizedStates[i] = m_modules[i].setSetpoint(states[i]);
     }
     Logger.getInstance().recordOutput("Drivetrain/Optimized Setpoint Module States", optimizedStates);
+    SwerveModuleState[] measuredStates = new SwerveModuleState[4];
+    for (int i = 0; i < 4; i++) {
+      measuredStates[i] = m_modules[i].getState();
+    }
+    Logger.getInstance().recordOutput("Drivetrain/Measured Module States", measuredStates);
+
   }
+
+  float test = 1;
 
   private Command testDrive() {
     return this.run(() -> {
-      setSetpointStates(calculateSetpointStates(new ChassisSpeeds(1, 0, 0)));
+      if (test < 4)
+        test += 0.05;
+      else if (test >= 4)
+        test *= -1;
+
+      setSetpointStates(calculateSetpointStates(new ChassisSpeeds(0, 0, test)));
     }).withName("Test Drive");
   }
 }

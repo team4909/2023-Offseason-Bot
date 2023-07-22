@@ -7,9 +7,11 @@ public interface ModuleIO {
   @AutoLog
   public static class ModuleIOInputs {
     public double drivePositionRotations;
+    public double driveRotorPositionRotations;
     public double driveVelocityRPS;
     public double driveClosedLoopReference;
     public double driveClosedLoopError;
+    public double driveClosedLoopOutput;
     public double driveTorqueCurrentAmps;
     public double driveStatorCurrentAmps;
     public double driveSupplyCurrentAmps;
@@ -17,9 +19,11 @@ public interface ModuleIO {
     public double driveTempCelsius;
 
     public double steerPositionRotations;
+    public double steerRotorPositionRotations;
     public double steerVelocityRPS;
     public double steerClosedLoopReference;
     public double steerClosedLoopError;
+    public double steerClosedLoopOutput;
     public double steerTorqueCurrentAmps;
     public double steerStatorCurrentAmps;
     public double steerSupplyCurrentAmps;
@@ -32,12 +36,13 @@ public interface ModuleIO {
     public double azimuthUnfilteredVelocityRPS;
     public double azimuthPositionSinceBoot;
 
-    public double latencyCompensatedPositionRotations;
+    public double latencyCompensatedDrivePositionRotations;
+    public double latencyCompensatedSteerPositionRotations;
   }
 
-  public void updateInputs(ModuleIOInputs inputs);
+  void updateInputs(ModuleIOInputs inputs);
 
-  public void updateSim();
+  void updateSim();
 
   void setDriveRPS(double speedRPS);
 

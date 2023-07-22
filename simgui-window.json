@@ -5,7 +5,7 @@
   "MainWindow": {
     "GLOBAL": {
       "fps": "120",
-      "height": "966",
+      "height": "968",
       "maximized": "1",
       "style": "0",
       "userScale": "2",
@@ -37,7 +37,7 @@
     },
     "###Plot <0>": {
       "Collapsed": "0",
-      "Pos": "299,582",
+      "Pos": "376,581",
       "Size": "700,400"
     },
     "###System Joysticks": {

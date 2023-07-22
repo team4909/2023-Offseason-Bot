@@ -15,9 +15,11 @@ public class CTREHelper {
   public static ArrayList<StatusSignal<Double>> getRelevantSignals(TalonFX talonFX) {
     return new ArrayList<>(List.of(
         talonFX.getPosition(),
+        talonFX.getRotorPosition(),
         talonFX.getVelocity(),
         talonFX.getClosedLoopReference(),
         talonFX.getClosedLoopError(),
+        talonFX.getClosedLoopOutput(),
         talonFX.getTorqueCurrent(),
         talonFX.getStatorCurrent(),
         talonFX.getSupplyCurrent(),
