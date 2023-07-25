@@ -40,16 +40,14 @@ public interface ModuleIO {
     public double latencyCompensatedSteerPositionRotations;
   }
 
-  void updateInputs(ModuleIOInputs inputs);
+  default void updateInputs(ModuleIOInputs inputs) {};
 
-  void updateSim();
+  default void setDriveRPS(double speedRPS) {};
 
-  void setDriveRPS(double speedRPS);
+  default void setSteerRotations(double angleRotations) {};
 
-  void setSteerRotations(double angleRotations);
+  default void setDriveVoltage(double volts) {};
 
-  void setDriveVoltage(double volts);
-
-  void setSteerVoltage(double volts);
+  default void setSteerVoltage(double volts) {};
 
 }

@@ -5,9 +5,8 @@ import edu.wpi.first.math.util.Units;
 
 public class Util {
 
-  public static DCMotor getFalcon500FOCGearbox(int numMotors, double reduction) {
-    return new DCMotor(12, 5.84, 304, 1.5, Units.rotationsPerMinuteToRadiansPerSecond(6080.0), numMotors)
-        .withReduction(reduction);
+  public static DCMotor getFalcon500FOC(int numMotors) {
+    return new DCMotor(12, 5.84, 304, 1.5, Units.rotationsPerMinuteToRadiansPerSecond(6080.0), numMotors);
   }
 
   // public static void logFalconError(StatusCode statusCode, String

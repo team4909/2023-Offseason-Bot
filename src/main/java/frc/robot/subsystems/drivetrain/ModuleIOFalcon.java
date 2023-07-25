@@ -22,6 +22,7 @@ import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.system.plant.LinearSystemId;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.RobotController;
+import edu.wpi.first.wpilibj.simulation.DCMotorSim;
 import edu.wpi.first.wpilibj.simulation.FlywheelSim;
 import edu.wpi.first.wpilibj.simulation.LinearSystemSim;
 import frc.lib.CTREHelper;
@@ -45,37 +46,38 @@ public final class ModuleIOFalcon implements ModuleIO {
   private final VelocityVoltage m_driveControl;
 
   private LinearSystemSim<N1, N1, N1> m_driveSim;
-  private FlywheelSim m_steerSim;
+  private DCMotorSim m_steerSim;
 
   public ModuleIOFalcon(int index) {
+
     m_index = index;
     switch (m_index) {
-      case 0:
-        m_driveMotor = new TalonFX(DeviceIDs.kFrontLeftModuleDriveMotor, Constants.kCANFDBus);
-        m_steerMotor = new TalonFX(DeviceIDs.kFrontLeftModuleSteerMotor, Constants.kCANFDBus);
-        m_azimuthEncoder = new CANcoder(DeviceIDs.kFrontLeftModuleAzimuthEncoder, Constants.kCANFDBus);
-        m_magnetOffset = 0.0;
-        break;
-      case 1:
-        m_driveMotor = new TalonFX(DeviceIDs.kFrontRightModuleDriveMotor, Constants.kCANFDBus);
-        m_steerMotor = new TalonFX(DeviceIDs.kFrontRightModuleSteerMotor, Constants.kCANFDBus);
-        m_azimuthEncoder = new CANcoder(DeviceIDs.kFrontRightModuleAzimuthEncoder, Constants.kCANFDBus);
-        m_magnetOffset = 0.0;
-        break;
-      case 2:
-        m_driveMotor = new TalonFX(DeviceIDs.kBackLeftModuleDriveMotor, Constants.kCANFDBus);
-        m_steerMotor = new TalonFX(DeviceIDs.kBackLeftModuleSteerMotor, Constants.kCANFDBus);
-        m_azimuthEncoder = new CANcoder(DeviceIDs.kBackLeftModuleAzimuthEncoder, Constants.kCANFDBus);
-        m_magnetOffset = 0.0;
-        break;
-      case 3:
-        m_driveMotor = new TalonFX(DeviceIDs.kBackRightModuleDriveMotor, Constants.kCANFDBus);
-        m_steerMotor = new TalonFX(DeviceIDs.kBackRightModuleSteerMotor, Constants.kCANFDBus);
-        m_azimuthEncoder = new CANcoder(DeviceIDs.kBackRightModuleAzimuthEncoder, Constants.kCANFDBus);
-        m_magnetOffset = 0.0;
-        break;
-      default:
-        throw new RuntimeException("Invalid Module Index");
+    case 0:
+      m_driveMotor = new TalonFX(DeviceIDs.kFrontLeftModuleDriveMotor, Constants.kCANFDBus);
+      m_steerMotor = new TalonFX(DeviceIDs.kFrontLeftModuleSteerMotor, Constants.kCANFDBus);
+      m_azimuthEncoder = new CANcoder(DeviceIDs.kFrontLeftModuleAzimuthEncoder, Constants.kCANFDBus);
+      m_magnetOffset = 0.0;
+      break;
+    case 1:
+      m_driveMotor = new TalonFX(DeviceIDs.kFrontRightModuleDriveMotor, Constants.kCANFDBus);
+      m_steerMotor = new TalonFX(DeviceIDs.kFrontRightModuleSteerMotor, Constants.kCANFDBus);
+      m_azimuthEncoder = new CANcoder(DeviceIDs.kFrontRightModuleAzimuthEncoder, Constants.kCANFDBus);
+      m_magnetOffset = 0.0;
+      break;
+    case 2:
+      m_driveMotor = new TalonFX(DeviceIDs.kBackLeftModuleDriveMotor, Constants.kCANFDBus);
+      m_steerMotor = new TalonFX(DeviceIDs.kBackLeftModuleSteerMotor, Constants.kCANFDBus);
+      m_azimuthEncoder = new CANcoder(DeviceIDs.kBackLeftModuleAzimuthEncoder, Constants.kCANFDBus);
+      m_magnetOffset = 0.0;
+      break;
+    case 3:
+      m_driveMotor = new TalonFX(DeviceIDs.kBackRightModuleDriveMotor, Constants.kCANFDBus);
+      m_steerMotor = new TalonFX(DeviceIDs.kBackRightModuleSteerMotor, Constants.kCANFDBus);
+      m_azimuthEncoder = new CANcoder(DeviceIDs.kBackRightModuleAzimuthEncoder, Constants.kCANFDBus);
+      m_magnetOffset = 0.0;
+      break;
+    default:
+      throw new RuntimeException("Invalid Module Index");
     }
     configMotors();
     m_driveMotorSignals = CTREHelper.getRelevantSignals(m_driveMotor);
@@ -87,7 +89,7 @@ public final class ModuleIOFalcon implements ModuleIO {
       m_driveSim = new LinearSystemSim<>(
           LinearSystemId.identifyVelocitySystem(DriveConstants.kDrivekV, DriveConstants.kDrivekA));
       // Steer is pretty much inertialess
-      m_steerSim = new FlywheelSim(Util.getFalcon500FOCGearbox(1, DriveConstants.kSteerRatio), 1.0, 4e-11);
+      m_steerSim = new DCMotorSim(Util.getFalcon500FOC(1), DriveConstants.kSteerRatio, 4e-11);
     }
   }
 
@@ -112,12 +114,12 @@ public final class ModuleIOFalcon implements ModuleIO {
         .radiansToRotations(m_driveSim.getOutput(0) / DriveConstants.kWheelRadiusMeters) * DriveConstants.kDriveRatio;
     driveSimState.addRotorPosition(driveRotorVelocityRPS * 0.02);
     driveSimState.setRotorVelocity(driveRotorVelocityRPS);
-    Logger.getInstance().recordOutput("Drivetrain/Sim/Module " + m_index + "/Steer Sim Output rad per s",
-        m_steerSim.getAngularVelocityRadPerSec());
     Logger.getInstance().recordOutput("Drivetrain/Sim/Module " + m_index + "/Steer Motor Output V",
         steerSimState.getMotorVoltage());
-    // Know that since we are simulating a fused cancoder we cannot simulate the
-    // internal rotor's state, just the cancoder
+    /*
+     * Note that since we are simulating a fused cancoder we cannot simulate the
+     * internal rotor's state, just the cancoder
+     */
     final double steerVelocityRPS = Units.radiansToRotations(m_steerSim.getAngularVelocityRadPerSec());
     azimuthSimState.addPosition(steerVelocityRPS * 0.02);
     azimuthSimState.setVelocity(steerVelocityRPS);
@@ -154,6 +156,9 @@ public final class ModuleIOFalcon implements ModuleIO {
 
   @Override
   public void updateInputs(ModuleIOInputs inputs) {
+    if (Constants.kCurrentMode.equals(Mode.kSim)) {
+      updateSim();
+    }
     CTREHelper.updateBulkSignals(m_driveMotorSignals, m_steerMotorSignals, m_azimuthEncoderSignals);
     inputs.drivePositionRotations = m_driveMotor.getPosition().getValue();
     inputs.driveRotorPositionRotations = m_driveMotor.getRotorPosition().getValue();
@@ -193,7 +198,6 @@ public final class ModuleIOFalcon implements ModuleIO {
 
   @Override
   public void setSteerRotations(double angleRotations) {
-    Logger.getInstance().recordOutput("Module " + m_index + "/Desired Angle Rotations", angleRotations);
     m_steerMotor.setControl(m_steerControl.withPosition(angleRotations));
   }
 

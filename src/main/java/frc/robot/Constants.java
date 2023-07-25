@@ -47,6 +47,6 @@ public final class Constants {
     public static final int kBackRightModuleAzimuthEncoder = 10;
     public static final int kBackLeftModuleAzimuthEncoder = 11;
     public static final int kFrontLeftModuleAzimuthEncoder = 12;
-    public static final int kIMU = 13;
+    public static final int kImu = 13;
   }
 }
