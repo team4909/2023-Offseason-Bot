@@ -6,9 +6,7 @@ public final class Constants {
   public static final Mode kCurrentMode = Mode.kSim;
 
   public static enum Mode {
-    kReal,
-    kSim,
-    kReplay
+    kReal, kSim, kReplay
   }
 
   public static final String kCANFDBus = "CANivore1";
@@ -17,12 +15,13 @@ public final class Constants {
   public static final class DriveConstants {
     public static final double kWheelDiameterMeters = Units.inchesToMeters(4.0);
     public static final double kWheelRadiusMeters = kWheelDiameterMeters / 2.0;
-    public static final double kWheelCircumferenceMeters = kWheelDiameterMeters * Math.PI;
     public static final double kTrackwidthMeters = Units.inchesToMeters(26.0);
     public static final double kWheelbaseMeters = Units.inchesToMeters(26.0);
     public static final double kDriveRatio = 6.75;
     public static final double kSteerRatio = 150.0 / 7.0;
-    public static final double kDriveMetersPerRotation = (1.0 / kDriveRatio) * kWheelCircumferenceMeters;
+    // These are surely different for FOC, calculate at some point
+    public static final double kMaxLinearSpeedMetersPerSec = Units.feetToMeters(16.3);
+    public static final double kMaxAngularSpeedRadPerSec = 10.0;
 
     // This should be tuned at some point
     public static final double kDrivekP = 0.17;

@@ -85,6 +85,12 @@
           },
           "open": true
         },
+        "Drivetrain": {
+          "Module 0": {
+            "open": true
+          },
+          "open": true
+        },
         "RealOutputs": {
           "LoggedRobot": {
             "open": true
@@ -99,6 +105,9 @@
             "open": true
           },
           "Module 3": {
+            "open": true
+          },
+          "Test": {
             "open": true
           },
           "open": true
@@ -117,6 +126,12 @@
     "Plot <0>": {
       "plots": [
         {
+          "backgroundColor": [
+            0.0,
+            0.0,
+            0.0,
+            0.8500000238418579
+          ],
           "height": 338,
           "series": [
             {
@@ -145,6 +160,90 @@
                 1.0
               ],
               "id": "NT:/AdvantageKit/RealOutputs/LoggedRobot/UserCodeMS"
+            }
+          ]
+        }
+      ]
+    },
+    "Plot <1>": {
+      "plots": [
+        {
+          "backgroundColor": [
+            0.0,
+            0.0,
+            0.0,
+            0.8500000238418579
+          ],
+          "height": 338,
+          "series": [
+            {
+              "color": [
+                0.2980392277240753,
+                0.44705885648727417,
+                0.6901960968971252,
+                1.0
+              ],
+              "id": "NT:/AdvantageKit/RealOutputs/Test/Desired Speed Module 0"
+            },
+            {
+              "color": [
+                0.8666667342185974,
+                0.5176470875740051,
+                0.32156863808631897,
+                1.0
+              ],
+              "id": "NT:/AdvantageKit/RealOutputs/Test/Measured Speed Module 0"
+            },
+            {
+              "color": [
+                0.3333333432674408,
+                0.658823549747467,
+                0.4078431725502014,
+                1.0
+              ],
+              "id": "NT:/AdvantageKit/Drivetrain/Module 0/DriveClosedLoopReference"
+            },
+            {
+              "color": [
+                0.7686275243759155,
+                0.30588236451148987,
+                0.32156863808631897,
+                1.0
+              ],
+              "id": "NT:/AdvantageKit/Drivetrain/Module 0/DriveVelocityRPS"
+            }
+          ]
+        }
+      ]
+    },
+    "Plot <2>": {
+      "plots": [
+        {
+          "backgroundColor": [
+            0.0,
+            0.0,
+            0.0,
+            0.8500000238418579
+          ],
+          "height": 338,
+          "series": [
+            {
+              "color": [
+                0.2980392277240753,
+                0.44705885648727417,
+                0.6901960968971252,
+                1.0
+              ],
+              "id": "NT:/AdvantageKit/Drivetrain/Module 0/SteerClosedLoopReference"
+            },
+            {
+              "color": [
+                0.8666667342185974,
+                0.5176470875740051,
+                0.32156863808631897,
+                1.0
+              ],
+              "id": "NT:/AdvantageKit/Drivetrain/Module 0/SteerPositionRotations"
             }
           ]
         }

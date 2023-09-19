@@ -11,11 +11,13 @@ import org.littletonrobotics.junction.wpilog.WPILOGWriter;
 import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.subsystems.drivetrain.Drivetrain;
 
 public final class Robot extends LoggedRobot {
-  private Command autonomousCommand;
+  private Command m_autonomousCommand;
   private Drivetrain m_drivetrain;
+  private CommandXboxController m_driverController = new CommandXboxController(0);
 
   public Robot() {
     Logger logger = Logger.getInstance();
@@ -32,7 +34,7 @@ public final class Robot extends LoggedRobot {
         break;
       case kReplay:
         setUseTiming(false);
-        String logPath = LogFileUtil.findReplayLog();
+        final String logPath = LogFileUtil.findReplayLog();
         logger.setReplaySource(new WPILOGReader(logPath));
         logger.addDataReceiver(new WPILOGWriter(LogFileUtil.addPathSuffix(logPath, "_sim")));
         break;
@@ -41,7 +43,10 @@ public final class Robot extends LoggedRobot {
     }
     logger.start();
     m_drivetrain = new Drivetrain();
-    // and put our autonomous chooser on the dashboard.
+    m_drivetrain.setJoystickAxes(
+        m_driverController::getLeftX,
+        m_driverController::getLeftY,
+        m_driverController::getRightX);
     configureButtonBindings();
   }
 
@@ -56,52 +61,43 @@ public final class Robot extends LoggedRobot {
   }
 
   @Override
-  public void disabledPeriodic() {
-  }
+  public void disabledPeriodic() {}
 
   @Override
   public void autonomousInit() {
     // schedule the autonomous command (example)
-    if (autonomousCommand != null) {
-      autonomousCommand.schedule();
+    if (m_autonomousCommand != null) {
+      m_autonomousCommand.schedule();
     }
   }
 
-  /** This function is called periodically during autonomous. */
   @Override
-  public void autonomousPeriodic() {
-  }
+  public void autonomousPeriodic() {}
 
-  /** This function is called once when teleop is enabled. */
   @Override
   public void teleopInit() {
-    if (autonomousCommand != null) {
-      autonomousCommand.cancel();
+    if (m_autonomousCommand != null) {
+      m_autonomousCommand.cancel();
     }
   }
 
   @Override
-  public void teleopPeriodic() {
-  }
+  public void teleopPeriodic() {}
 
   @Override
-  public void testInit() {
-
-  }
+  public void testInit() {}
 
   @Override
-  public void testPeriodic() {
-  }
+  public void testPeriodic() {}
 
   @Override
-  public void simulationInit() {
-  }
+  public void simulationInit() {}
 
   @Override
-  public void simulationPeriodic() {
-  }
+  public void simulationPeriodic() {}
 
   private void configureButtonBindings() {
+
   }
 
   private void recordBuildMetadata(Logger logger) {

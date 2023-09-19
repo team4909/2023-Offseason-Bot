@@ -23,7 +23,6 @@ import edu.wpi.first.math.system.plant.LinearSystemId;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.simulation.DCMotorSim;
-import edu.wpi.first.wpilibj.simulation.FlywheelSim;
 import edu.wpi.first.wpilibj.simulation.LinearSystemSim;
 import frc.lib.CTREHelper;
 import frc.robot.Constants;
@@ -52,32 +51,32 @@ public final class ModuleIOFalcon implements ModuleIO {
 
     m_index = index;
     switch (m_index) {
-    case 0:
-      m_driveMotor = new TalonFX(DeviceIDs.kFrontLeftModuleDriveMotor, Constants.kCANFDBus);
-      m_steerMotor = new TalonFX(DeviceIDs.kFrontLeftModuleSteerMotor, Constants.kCANFDBus);
-      m_azimuthEncoder = new CANcoder(DeviceIDs.kFrontLeftModuleAzimuthEncoder, Constants.kCANFDBus);
-      m_magnetOffset = 0.0;
-      break;
-    case 1:
-      m_driveMotor = new TalonFX(DeviceIDs.kFrontRightModuleDriveMotor, Constants.kCANFDBus);
-      m_steerMotor = new TalonFX(DeviceIDs.kFrontRightModuleSteerMotor, Constants.kCANFDBus);
-      m_azimuthEncoder = new CANcoder(DeviceIDs.kFrontRightModuleAzimuthEncoder, Constants.kCANFDBus);
-      m_magnetOffset = 0.0;
-      break;
-    case 2:
-      m_driveMotor = new TalonFX(DeviceIDs.kBackLeftModuleDriveMotor, Constants.kCANFDBus);
-      m_steerMotor = new TalonFX(DeviceIDs.kBackLeftModuleSteerMotor, Constants.kCANFDBus);
-      m_azimuthEncoder = new CANcoder(DeviceIDs.kBackLeftModuleAzimuthEncoder, Constants.kCANFDBus);
-      m_magnetOffset = 0.0;
-      break;
-    case 3:
-      m_driveMotor = new TalonFX(DeviceIDs.kBackRightModuleDriveMotor, Constants.kCANFDBus);
-      m_steerMotor = new TalonFX(DeviceIDs.kBackRightModuleSteerMotor, Constants.kCANFDBus);
-      m_azimuthEncoder = new CANcoder(DeviceIDs.kBackRightModuleAzimuthEncoder, Constants.kCANFDBus);
-      m_magnetOffset = 0.0;
-      break;
-    default:
-      throw new RuntimeException("Invalid Module Index");
+      case 0:
+        m_driveMotor = new TalonFX(DeviceIDs.kFrontLeftModuleDriveMotor, Constants.kCANFDBus);
+        m_steerMotor = new TalonFX(DeviceIDs.kFrontLeftModuleSteerMotor, Constants.kCANFDBus);
+        m_azimuthEncoder = new CANcoder(DeviceIDs.kFrontLeftModuleAzimuthEncoder, Constants.kCANFDBus);
+        m_magnetOffset = 0.0;
+        break;
+      case 1:
+        m_driveMotor = new TalonFX(DeviceIDs.kFrontRightModuleDriveMotor, Constants.kCANFDBus);
+        m_steerMotor = new TalonFX(DeviceIDs.kFrontRightModuleSteerMotor, Constants.kCANFDBus);
+        m_azimuthEncoder = new CANcoder(DeviceIDs.kFrontRightModuleAzimuthEncoder, Constants.kCANFDBus);
+        m_magnetOffset = 0.0;
+        break;
+      case 2:
+        m_driveMotor = new TalonFX(DeviceIDs.kBackLeftModuleDriveMotor, Constants.kCANFDBus);
+        m_steerMotor = new TalonFX(DeviceIDs.kBackLeftModuleSteerMotor, Constants.kCANFDBus);
+        m_azimuthEncoder = new CANcoder(DeviceIDs.kBackLeftModuleAzimuthEncoder, Constants.kCANFDBus);
+        m_magnetOffset = 0.0;
+        break;
+      case 3:
+        m_driveMotor = new TalonFX(DeviceIDs.kBackRightModuleDriveMotor, Constants.kCANFDBus);
+        m_steerMotor = new TalonFX(DeviceIDs.kBackRightModuleSteerMotor, Constants.kCANFDBus);
+        m_azimuthEncoder = new CANcoder(DeviceIDs.kBackRightModuleAzimuthEncoder, Constants.kCANFDBus);
+        m_magnetOffset = 0.0;
+        break;
+      default:
+        throw new RuntimeException("Invalid Module Index");
     }
     configMotors();
     m_driveMotorSignals = CTREHelper.getRelevantSignals(m_driveMotor);

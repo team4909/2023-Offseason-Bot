@@ -14,20 +14,39 @@ import com.ctre.phoenix6.hardware.TalonFX;
 public class CTREHelper {
 
   public static ArrayList<StatusSignal<Double>> getRelevantSignals(TalonFX talonFX) {
-    return new ArrayList<>(List.of(talonFX.getPosition(), talonFX.getRotorPosition(), talonFX.getVelocity(),
-        talonFX.getClosedLoopReference(), talonFX.getClosedLoopError(), talonFX.getClosedLoopOutput(),
-        talonFX.getTorqueCurrent(), talonFX.getStatorCurrent(), talonFX.getSupplyCurrent(), talonFX.getSupplyVoltage(),
+    return new ArrayList<>(List.of(
+        talonFX.getPosition(),
+        talonFX.getRotorPosition(),
+        talonFX.getVelocity(),
+        talonFX.getClosedLoopReference(),
+        talonFX.getClosedLoopError(),
+        talonFX.getClosedLoopOutput(),
+        talonFX.getTorqueCurrent(),
+        talonFX.getStatorCurrent(),
+        talonFX.getSupplyCurrent(),
+        talonFX.getSupplyVoltage(),
         talonFX.getDeviceTemp()));
   }
 
   public static ArrayList<StatusSignal<Double>> getRelevantSignals(CANcoder cancoder) {
-    return new ArrayList<>(List.of(cancoder.getPosition(), cancoder.getVelocity(), cancoder.getAbsolutePosition(),
-        cancoder.getUnfilteredVelocity(), cancoder.getPositionSinceBoot()));
+    return new ArrayList<>(List.of(
+        cancoder.getPosition(),
+        cancoder.getVelocity(),
+        cancoder.getAbsolutePosition(),
+        cancoder.getUnfilteredVelocity(),
+        cancoder.getPositionSinceBoot()));
   }
 
   public static ArrayList<StatusSignal<Double>> getRelevantSignals(Pigeon2 pigeon) {
-    return new ArrayList<>(List.of(pigeon.getYaw(), pigeon.getPitch(), pigeon.getRoll(), pigeon.getAngularVelocityZ(),
-        pigeon.getAngularVelocityX(), pigeon.getAngularVelocityY(), pigeon.getSupplyVoltage(), pigeon.getUpTime(),
+    return new ArrayList<>(List.of(
+        pigeon.getYaw(),
+        pigeon.getPitch(),
+        pigeon.getRoll(),
+        pigeon.getAngularVelocityZ(),
+        pigeon.getAngularVelocityX(),
+        pigeon.getAngularVelocityY(),
+        pigeon.getSupplyVoltage(),
+        pigeon.getUpTime(),
         pigeon.getTemperature()));
   }
   // public static CTRESignalMap<Double> getDeviceLog(Pigeon2 pigeon, String

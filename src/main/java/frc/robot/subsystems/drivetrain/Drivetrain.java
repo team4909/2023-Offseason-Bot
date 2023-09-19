@@ -1,23 +1,24 @@
 package frc.robot.subsystems.drivetrain;
 
+import java.util.function.DoubleSupplier;
+
 import org.littletonrobotics.junction.Logger;
 
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.math.geometry.Twist2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc.robot.Constants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.Mode;
 
-public final class Drivetrain extends SubsystemBase {
+public final class Drivetrain extends Subsystem {
 
   private final SwerveDriveKinematics m_kinematics = new SwerveDriveKinematics(
       new Translation2d(DriveConstants.kTrackwidthMeters / 2.0, DriveConstants.kWheelbaseMeters / 2.0),
@@ -28,13 +29,13 @@ public final class Drivetrain extends SubsystemBase {
   private final SwerveDrivePoseEstimator m_poseEstimator;
   private final ImuIO m_imuIO;
   private final ImuIOInputsAutoLogged m_imuInputs = new ImuIOInputsAutoLogged();
+  private DoubleSupplier m_leftX, m_leftY, m_rightX;
 
-  public Drivetrain() {
+  public Drivetrain(ModuleIO[] moduleIOs, ImuIO imuIO) {
     setName("Drivetrain");
     final boolean isReplay = Constants.kCurrentMode.equals(Mode.kReplay);
-    for (int i = 0; i < m_modules.length; i++) {
+    for (int i = 0; i < m_modules.length; i++)
       m_modules[i] = new Module(isReplay ? new ModuleIO() {} : new ModuleIOFalcon(i), i);
-    }
     m_imuIO = isReplay ? new ImuIO() {} : new ImuIOPigeon2();
     m_poseEstimator = new SwerveDrivePoseEstimator(m_kinematics,
         Rotation2d.fromDegrees(m_imuInputs.latencyCompensatedYaw), getModulePositions(), new Pose2d());
@@ -53,49 +54,65 @@ public final class Drivetrain extends SubsystemBase {
   }
 
   private SwerveModuleState[] calculateSetpointStates(ChassisSpeeds speeds) {
-    final double dt = 0.02;
-    final Pose2d velocityPose = new Pose2d(speeds.vxMetersPerSecond * dt, speeds.vyMetersPerSecond * dt,
-        Rotation2d.fromRadians(speeds.omegaRadiansPerSecond * dt));
-    final Twist2d moduleStateDelta = new Pose2d().log(velocityPose);
-    final ChassisSpeeds adjustedSpeeds = new ChassisSpeeds(moduleStateDelta.dx / dt, moduleStateDelta.dy / dt,
-        moduleStateDelta.dtheta / dt);
-    if (Constants.kCurrentMode.equals(Mode.kSim))
-      m_imuIO.updateSim(moduleStateDelta.dtheta);
-    return m_kinematics.toSwerveModuleStates(adjustedSpeeds);
+    final double dtSeconds = 0.02;
+    return m_kinematics.toSwerveModuleStates(ChassisSpeeds.fromDiscreteSpeeds(speeds, dtSeconds));
   }
 
   private void setSetpointStates(SwerveModuleState[] states) {
     final SwerveModuleState[] optimizedStates = new SwerveModuleState[m_modules.length];
-    for (int i = 0; i < states.length; i++) {
+    for (int i = 0; i < states.length; i++)
       optimizedStates[i] = m_modules[i].setSetpoint(states[i]);
-    }
     Logger.getInstance().recordOutput("Drivetrain/Setpoint Module States", optimizedStates);
     final SwerveModuleState[] measuredStates = new SwerveModuleState[m_modules.length];
-    for (int i = 0; i < m_modules.length; i++) {
+    for (int i = 0; i < m_modules.length; i++)
       measuredStates[i] = m_modules[i].getState();
-    }
     Logger.getInstance().recordOutput("Drivetrain/Measured Module States", measuredStates);
   }
 
   private SwerveModulePosition[] getModulePositions() {
     final SwerveModulePosition[] positions = new SwerveModulePosition[m_modules.length];
-    for (int i = 0; i < m_modules.length; i++) {
+    for (int i = 0; i < m_modules.length; i++)
       positions[i] = m_modules[i].getPosition();
-    }
     return positions;
+  }
+
+  public void setJoystickAxes(DoubleSupplier leftX, DoubleSupplier leftY, DoubleSupplier rightX) {
+    m_leftX = leftX;
+    m_leftY = leftY;
+    m_rightX = rightX;
   }
 
   float test = 1;
 
   private Command testDrive() {
     return this.run(() -> {
-      if (test < 4)
+      if (test < 6)
         test += 0.05;
       else if (test >= 4)
         test *= -1;
 
-      setSetpointStates(calculateSetpointStates(ChassisSpeeds.fromFieldRelativeSpeeds(0, 0, test,
-          Rotation2d.fromDegrees(m_imuInputs.latencyCompensatedYaw))));
+      setSetpointStates(calculateSetpointStates(
+          ChassisSpeeds.fromFieldRelativeSpeeds(0, 0, 12, Rotation2d.fromDegrees(m_imuInputs.latencyCompensatedYaw))));
     }).withName("Test Drive");
   }
+
+  private Command idle() {
+    return this.run(() -> {
+      for (Module module : m_modules)
+        module.stop();
+    });
+
+  }
+
+  private Command joystickDrive() {
+    return this.run(() -> {
+      setSetpointStates(calculateSetpointStates(
+          ChassisSpeeds.fromFieldRelativeSpeeds(
+              m_leftX.getAsDouble() * DriveConstants.kMaxLinearSpeedMetersPerSec,
+              m_leftY.getAsDouble() * DriveConstants.kMaxLinearSpeedMetersPerSec,
+              m_rightX.getAsDouble() * DriveConstants.kMaxAngularSpeedRadPerSec,
+              Rotation2d.fromDegrees(m_imuInputs.latencyCompensatedYaw))));
+    });
+  }
+
 }
